@@ -11,15 +11,37 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+            Schema::create('users', function (Blueprint $table) {
+                // ✅ Clé primaire UUID
+                $table->uuid('id')->primary();
+
+                // ✅ Type d'utilisateur (Single Table Inheritance)
+                $table->string('type')->default('admin'); // 'admin' ou 'hopital'
+
+                // ✅ Propriétés de la classe abstraite Utilisateur
+                $table->string('login')->unique();
+                $table->string('password_hash'); // Stocker le hash, pas le mot de passe
+                $table->string('role')->default('user'); // admin, supervisor, agent
+                $table->string('telephone')->nullable();
+                $table->string('uuid')->unique()->nullable(); // Sync UUID
+                $table->boolean('deleted')->default(false); // Soft delete
+                $table->enum('sync_statut', [
+                    'pending',
+                    'synced',
+                    'failed',
+                    'conflict'
+                ])->default('pending');
+
+                // ✅ Timestamps
+                $table->timestamps();
+                $table->softDeletes();
+
+                // Indexes
+                $table->index('type');
+                $table->index('login');
+                $table->index('sync_statut');
+                $table->rememberToken();
+            });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
