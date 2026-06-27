@@ -230,12 +230,12 @@ class HopitalAuthController
     private function generateHopitalCode(): string
     {
         $prefix = 'HOSP-';
-        $suffix = strtoupper(\Illuminate\Support\Str::random(4));
+        $suffix = strtoupper(\Illuminate\Support\Str::random(6));
         $code = $prefix . $suffix;
 
         // Vérifier l'unicité
         while (Hopital::where('code_hopital', $code)->exists()) {
-            $suffix = strtoupper(\Illuminate\Support\Str::random(4));
+            $suffix = strtoupper(\Illuminate\Support\Str::random(6));
             $code = $prefix . $suffix;
         }
 

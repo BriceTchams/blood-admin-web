@@ -17,7 +17,8 @@ return new class extends Migration
             // ce module ; la FK pourra être ajoutée quand `hopitaux` existera.
             $table->uuid('hopital_id')->index();
 
-            $table->foreignUuid('groupe_sanguin_id')
+                    $table->foreignUuid('groupe_sanguin_id')
+                ->nullable()
                 ->constrained('groupe_sanguins')
                 ->nullOnDelete();
 
