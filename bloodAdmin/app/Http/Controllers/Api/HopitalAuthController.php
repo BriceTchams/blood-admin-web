@@ -23,23 +23,23 @@ class HopitalAuthController
     {
         $validated = $request->validated();
 
-        // ✅ Trouver l'hôpital par code
+        //  Trouver l'hôpital par code
         $hopital = Hopital::byCode($validated['hopital_code'])
             ->active()
             ->with('user')
             ->firstOrFail();
 
-        // ✅ Récupérer l'utilisateur associé
+        //  Récupérer l'utilisateur associé
         $user = $hopital->user;
 
-        // ✅ Vérifier le mot de passe
+        //  Vérifier le mot de passe
         if (!Hash::check($validated['password'], $user->password_hash)) {
             throw ValidationException::withMessages([
                 'password' => ['Mot de passe incorrect.'],
             ]);
         }
 
-        // ✅ Vérifier la validité de la licence
+        //  Vérifier la validité de la licence
         if (!$hopital->isLicenseValid()) {
             return response()->json([
                 'success' => false,
@@ -47,17 +47,17 @@ class HopitalAuthController
             ], 403);
         }
 
-        // ✅ Créer le token API (Sanctum)
+        //  Créer le token API (Sanctum)
         $token = $user->createToken('hopital-app', ['hopital:' . $hopital->id])
             ->plainTextToken;
 
-        // ✅ Mettre à jour le statut de sync
+        //  Mettre à jour le statut de sync
         $hopital->update([
             'last_synced_at' => now(),
             'sync_statut' => 'synced',
         ]);
 
-        // ✅ Réponse complète
+        //  Réponse complète
         return response()->json([
             'success' => true,
             'message' => 'Connexion réussie',
@@ -90,7 +90,7 @@ class HopitalAuthController
     {
         $validated = $request->validated();
 
-        // ✅ Transaction : créer User + Hopital atomiquement
+        //  Transaction : créer User + Hopital atomiquement
         $user = DB::transaction(function () use ($validated) {
             // Créer l'utilisateur
             $user = User::create([
