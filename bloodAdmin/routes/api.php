@@ -38,14 +38,29 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/licenses', [LicenseController::class, 'dashboard']); 
 
 
-    //souscription d'un hôpital
+    //souscription 
 
+    // creation dd'une souscription
       Route::post('/souscriptions', [SouscriptionController::class, 'store']);
+      //affichage d'information liee a une soucription
     Route::get('/souscriptions/{id}', [SouscriptionController::class, 'show']);
+
+    //mise a jour des informations liees a une souscription
     Route::put('/souscriptions/{id}', [SouscriptionController::class, 'update']);
+
+    //renouvellemet d'une souscription
     Route::post('/souscriptions/{id}/renew', [SouscriptionController::class, 'renew']);
+
+    //suspension d'une souscription
     Route::post('/souscriptions/{id}/suspend', [SouscriptionController::class, 'suspend']);
+    
+    // annulation d'une souscription
     Route::post('/souscriptions/{id}/cancel', [SouscriptionController::class, 'cancel']);
+
+    //affichage de soucription avec hopitaux avec concerne
+
     Route::get('/hopitals/{hopital_id}/souscriptions', [SouscriptionController::class, 'byHopital']);
+
+    //affichage de toutes les soucription
     Route::get('/admin/souscriptions', [SouscriptionController::class, 'dashboard']);
 });
