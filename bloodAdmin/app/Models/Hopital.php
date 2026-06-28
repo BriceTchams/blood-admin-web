@@ -80,4 +80,6 @@ class Hopital extends Model
     {
         return $query->where('code_hopital', $code);
     }
+
+    
 }
