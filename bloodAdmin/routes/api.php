@@ -75,16 +75,16 @@ Route::middleware('auth:sanctum')->group(function () {
         // synchronisation de donnees 
 
 
-   Route::post('/push', [SyncController::class, 'push']);
+       Route::post('/push', [SyncController::class, 'push']);
 
-    Route::get('/pull', [SyncController::class, 'pull']);
+        Route::get('/pull', [SyncController::class, 'pull']);
 
-    Route::get('/history', [SyncController::class, 'history']);
+        Route::get('/history', [SyncController::class, 'history']);
 
-    Route::get('/queue', [SyncController::class, 'queue']);
+        Route::get('/queue', [SyncController::class, 'queue']);
 
-    Route::get('/status', [SyncController::class, 'status']);
+        Route::get('/status', [SyncController::class, 'status']);
 
-    Route::post('/force', [SyncController::class, 'forceSync']);
+        Route::post('/force', [SyncController::class, 'forceSync']);
 
 });

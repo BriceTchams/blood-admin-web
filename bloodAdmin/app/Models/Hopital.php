@@ -1,5 +1,4 @@
 <?php
-// app/Models/Hopital.php
 
 namespace App\Models;
 
@@ -7,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;  // ← BON import
 
 class Hopital extends Model
 {
@@ -39,20 +39,42 @@ class Hopital extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // public function donneurs()
-    // {
-    //     return $this->hasMany(Donneur::class);
-    // }
+    public function donneurs(): HasMany
+    {
+        return $this->hasMany(Donneur::class);
+    }
 
-    // public function notifications()
-    // {
-    //     return $this->hasMany(Notification::class);
-    // }
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
 
-    // public function souscriptions()
-    // {
-    //     return $this->hasMany(Souscription::class);
-    // }
+    public function souscriptions(): HasMany
+    {
+        return $this->hasMany(Souscription::class);
+    }
+
+    public function syncLogs(): HasMany
+    {
+        return $this->hasMany(SyncLog::class);
+    }
+
+    public function syncQueues(): HasMany
+    {
+        return $this->hasMany(SyncQueue::class);
+    }
+
+    public function license()
+    {
+        return $this->hasOne(License::class);
+    }
+
+    public function souscriptionActive()
+    {
+        return $this->hasOne(Souscription::class)
+            ->where('statut', 'active')
+            ->latestOfMany();
+    }
 
     // ✅ Accesseurs
     public function isActive(): bool
@@ -80,6 +102,4 @@ class Hopital extends Model
     {
         return $query->where('code_hopital', $code);
     }
-
-    
 }
