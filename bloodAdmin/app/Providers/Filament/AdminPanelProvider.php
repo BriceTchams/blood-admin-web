@@ -27,7 +27,18 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            //custom name
+            ->brandName('Admin Bank')
             ->login()
+             ->registration()
+        ->passwordReset()
+        ->emailVerification()
+        ->emailChangeVerification()
+        ->profile()
+                // ->sidebarFullyCollapsibleOnDesktop()
+
+                ->sidebarCollapsibleOnDesktop()
+
             ->colors([
                 'primary' => Color::Amber,
             ])

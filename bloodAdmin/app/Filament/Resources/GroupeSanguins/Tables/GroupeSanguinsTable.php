@@ -19,9 +19,9 @@ class GroupeSanguinsTable
                 TextColumn::make('id')
                     ->label('ID')
                     ->searchable(),
-                TextColumn::make('uuid')
-                    ->label('UUID')
-                    ->searchable(),
+                // TextColumn::make('uuid')
+                //     ->label('UUID')
+                //     ->searchable(),
                 TextColumn::make('libelle')
                     ->badge(),
                 TextColumn::make('rhesus')
